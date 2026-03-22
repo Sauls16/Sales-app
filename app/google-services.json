@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762017491199",
+    "project_id": "sales-86839",
+    "storage_bucket": "sales-86839.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762017491199:android:7073df1638a9ff4fa204ca",
+        "android_client_info": {
+          "package_name": "edu.itvo.sales2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxiMj3F9SGrjuNWkVY_9aAkOidmgaqcWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
