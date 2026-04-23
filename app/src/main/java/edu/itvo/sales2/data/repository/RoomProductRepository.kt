@@ -1,8 +1,8 @@
 package edu.itvo.sales2.data.repository
 
 import edu.itvo.sales2.data.local.dao.ProductDao
-import edu.itvo.sales2.data.mapper.toDomain
-import edu.itvo.sales2.data.mapper.toEntity
+import edu.itvo.sales2.data.local.mapper.toDomain
+import edu.itvo.sales2.data.local.mapper.toEntity
 import edu.itvo.sales2.domain.model.Product
 import edu.itvo.sales2.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow

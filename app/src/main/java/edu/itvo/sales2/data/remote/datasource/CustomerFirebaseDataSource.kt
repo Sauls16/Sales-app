@@ -1,4 +1,4 @@
-package edu.itvo.sales2.data.remote
+package edu.itvo.sales2.data.remote.datasource
 
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.itvo.sales2.domain.model.Customer

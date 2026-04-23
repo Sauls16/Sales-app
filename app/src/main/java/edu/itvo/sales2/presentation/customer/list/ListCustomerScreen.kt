@@ -40,7 +40,6 @@ fun ListCustomerScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    var customerToDelete by remember { mutableStateOf<Customer?>(null) }
 
     Scaffold(
         floatingActionButton = {
@@ -92,44 +91,11 @@ fun ListCustomerScreen(
                     ListCustomer(
                         customers = uiState.customers,
                         onDeleteCustomer = { customer ->
-                            customerToDelete = customer
+                            viewModel.deleteCustomer(customer)
                         }
                     )
                 }
             }
         }
-    }
-
-    customerToDelete?.let { customer ->
-        AlertDialog(
-            onDismissRequest = {
-                customerToDelete = null
-            },
-            title = {
-                Text("Confirmar eliminación")
-            },
-            text = {
-                Text("¿Está seguro que desea eliminar al cliente ${customer.name}?")
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        viewModel.deleteCustomer(customer)
-                        customerToDelete = null
-                    }
-                ) {
-                    Text("Eliminar")
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    onClick = {
-                        customerToDelete = null
-                    }
-                ) {
-                    Text("Cancelar")
-                }
-            }
-        )
     }
 }

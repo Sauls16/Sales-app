@@ -102,8 +102,6 @@ class CreateProductViewModel @Inject constructor(
                 }
                 createProductUseCase(product)
 
-
-
             } catch (e: Exception) {
 
                 sendEffect(

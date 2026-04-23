@@ -1,8 +1,8 @@
 package edu.itvo.sales2.data.repository
 
 import edu.itvo.sales2.data.local.dao.CustomerDao
-import edu.itvo.sales2.data.mapper.toDomain
-import edu.itvo.sales2.data.mapper.toEntity
+import edu.itvo.sales2.data.local.mapper.toDomain
+import edu.itvo.sales2.data.local.mapper.toEntity
 import edu.itvo.sales2.domain.model.Customer
 import edu.itvo.sales2.domain.repository.CustomerRepository
 import javax.inject.Inject

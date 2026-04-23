@@ -1,10 +1,10 @@
-package edu.itvo.sales2.data.remote
+package edu.itvo.sales2.data.repository
 
+import edu.itvo.sales2.data.remote.datasource.ProductFirebaseDataSource
 import edu.itvo.sales2.domain.model.Product
 import edu.itvo.sales2.domain.repository.ProductRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
-
 
 class FirestoreProductRepository @Inject constructor(
     private val firebaseDataSource: ProductFirebaseDataSource

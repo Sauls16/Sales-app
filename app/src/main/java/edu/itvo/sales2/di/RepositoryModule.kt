@@ -4,8 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import edu.itvo.sales2.data.remote.FirestoreCustomerRepository
-import edu.itvo.sales2.data.remote.FirestoreProductRepository
+import edu.itvo.sales2.data.repository.CustomerRepositoryImpl
+import edu.itvo.sales2.data.repository.ProductRepositoryImpl
+import edu.itvo.sales2.data.repository.FirestoreCustomerRepository
 import edu.itvo.sales2.domain.repository.CustomerRepository
 import edu.itvo.sales2.domain.repository.ProductRepository
 import javax.inject.Singleton
@@ -17,14 +18,14 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindProductRepository(
-        repository: FirestoreProductRepository
+        repository: ProductRepositoryImpl
     ): ProductRepository
 
 
     @Binds
     @Singleton
     abstract fun bindCustomerRepository(
-        repository: FirestoreCustomerRepository
+        repository: CustomerRepositoryImpl
     ): CustomerRepository
 }
 

@@ -1,4 +1,4 @@
-package edu.itvo.sales2.data.mapper
+package edu.itvo.sales2.data.local.mapper
 
 import edu.itvo.sales2.data.local.entity.ProductEntity
 import edu.itvo.sales2.domain.model.Product
