@@ -24,7 +24,10 @@ interface CustomerApiService {
     ): CustomerDto
 
     @PUT("customers/{id}")
-    suspend fun updateCustomer (  @Body customer: CustomerDto): CustomerDto
+    suspend fun updateCustomer(
+        @Path("id") id: String,
+        @Body customer: CustomerDto
+    ): CustomerDto
 
     @DELETE("customers/{id}")
     suspend fun deleteCustomer( @Path("id") id: String)

@@ -82,6 +82,16 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteProduct(productCode: String) {
-        local.deleteProduct(productCode)
+        try {
+            //Eliminar en remoto primero
+            remote.deleteProduct(productCode)
+
+            //Si falla eliminamos en local
+            local.deleteProduct(productCode)
+
+            Log.d("DELETE_SYNC", "Producto $productCode eliminado de forma remota y local")
+        } catch (e: Exception){
+            Log.e("DELETE_ERROR", "No se pudo eliminar del servidor ${e.message}")
+        }
     }
 }

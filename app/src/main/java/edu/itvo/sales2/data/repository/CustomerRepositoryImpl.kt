@@ -72,7 +72,17 @@ class CustomerRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteCustomer(customerCode: String) {
-        local.deleteCustomer(customerCode)
+       try {
+           //Eliminar del webservice primero
+           remote.deleteCustomer(customerCode)
+
+            // Si falla, eliminamos de room
+           local.deleteCustomer(customerCode)
+
+           Log.d("DELETE_SYNC", "Cliente $customerCode eliminado de forma remota y local")
+       } catch (e: Exception){
+           Log.e("DELETE_ERROR", "No se pudo eliminar del servidor: ${e.message}")
+       }
     }
 
 

@@ -19,5 +19,9 @@ class CustomerRemoteDatasource @Inject constructor(
     suspend fun getCustomers(): ApiResponse<List<CustomerDto>> {
         return api.getCustomers()
     }
+
+    suspend fun deleteCustomer(code: String ){
+        api.deleteCustomer(code)
+    }
 }
 

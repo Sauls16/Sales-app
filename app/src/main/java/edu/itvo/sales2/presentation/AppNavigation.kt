@@ -30,14 +30,11 @@ import edu.itvo.sales2.presentation.product.list.ListProductScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-
-    // Esto nos permite saber en qué pantalla estamos actualmente
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         bottomBar = {
-            // Solo mostramos la barra inferior en las listas, no en los formularios
             if (currentRoute == "product_list" || currentRoute == "customer_list") {
                 NavigationBar {
                     NavigationBarItem(

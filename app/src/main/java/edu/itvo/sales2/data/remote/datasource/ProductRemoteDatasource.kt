@@ -20,4 +20,8 @@ class ProductRemoteDataSource @Inject constructor(
     suspend fun getProducts(): ApiResponse<List<ProductDto>> {
         return api.getProducts()
     }
+
+    suspend fun deleteProduct(code: String){
+        api.deleteProduct(code)
+    }
 }
