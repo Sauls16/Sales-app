@@ -1,6 +1,7 @@
 package edu.itvo.sales2.data.repository
 
 import edu.itvo.sales2.data.local.dao.ProductDao
+import edu.itvo.sales2.data.local.entity.ProductEntity
 import edu.itvo.sales2.data.local.mapper.toDomain
 import edu.itvo.sales2.data.local.mapper.toEntity
 import edu.itvo.sales2.domain.model.Product
@@ -29,5 +30,9 @@ class RoomProductRepository @Inject constructor(
 
     override suspend fun deleteProduct(productCode: String) {
         dao.deleteByCode(productCode)
+    }
+
+    override suspend fun updateProduct(product: Product) {
+        dao.update(product.toEntity())
     }
 }

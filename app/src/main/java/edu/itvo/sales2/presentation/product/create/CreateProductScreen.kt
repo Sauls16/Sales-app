@@ -26,13 +26,19 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CreateProductScreen(
+    productCode: String? = null,
     viewModel: CreateProductViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
-
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(productCode) {
+        if(!productCode.isNullOrEmpty()){
+            viewModel.loadProductData(productCode)
+        }
+    }
 
     LaunchedEffect(Unit) {
 

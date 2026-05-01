@@ -34,4 +34,8 @@ class InMemoryProductRepository @Inject constructor()
     }
 
     override fun getProducts(): Flow<List<Product>> = observeAll()
+
+    override suspend fun updateProduct(product: Product) {
+        updateProduct(product)
+    }
 }

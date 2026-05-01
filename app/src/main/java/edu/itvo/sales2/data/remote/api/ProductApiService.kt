@@ -23,10 +23,14 @@ interface ProductApiService {
     ): ProductDto
 
     @PUT("products/{code}")
-    suspend fun updateProduct (  @Body product: ProductDto): ProductDto
+    suspend fun updateProduct (
+        @Path("code") code: String,
+        @Body product: ProductDto
+    ): ProductDto
 
     @DELETE("products/{code}")
     suspend fun deleteProduct ( @Path("code") code: String)
+
 
 }
 

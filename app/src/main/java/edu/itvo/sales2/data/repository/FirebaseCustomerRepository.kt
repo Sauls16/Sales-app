@@ -1,5 +1,6 @@
 package edu.itvo.sales2.data.repository
 
+import com.google.rpc.Code
 import edu.itvo.sales2.data.remote.datasource.CustomerFirebaseDataSource
 import edu.itvo.sales2.domain.model.Customer
 import edu.itvo.sales2.domain.repository.CustomerRepository
@@ -25,4 +26,9 @@ class FirestoreCustomerRepository @Inject constructor(
     override suspend fun deleteCustomer(customerCode: String) {
         firebaseDataSource.deleteCustomer(customerCode)
     }
+
+    override suspend fun updateCustomer(customer: Customer){
+        firebaseDataSource.updateCustomer(customer)
+    }
+
 }

@@ -13,7 +13,8 @@ import edu.itvo.sales2.domain.model.Product
 @Composable
 fun ListProduct(
     products: List<Product>,
-    onDeleteProduct: (Product) -> Unit
+    onDeleteProduct: (Product) -> Unit,
+    onUpdateProduct: (Product) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -26,7 +27,9 @@ fun ListProduct(
         ) { product ->
             ProductItem(
                 product = product,
-                onDeleteClick = { onDeleteProduct(product) }
+                onDeleteClick = { onDeleteProduct(product) },
+                onEditProduct = {onUpdateProduct(product)}
+
             )
         }
     }

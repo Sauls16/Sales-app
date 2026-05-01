@@ -30,12 +30,19 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CreateCustomerScreen(
+    customerCode: String? = null,
     viewModel: CreateCustomerViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(customerCode) {
+        customerCode?.let {
+            viewModel.loadCustomerData(it)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -72,13 +79,16 @@ fun CreateCustomerScreen(
         ) {
 
             Text(
-                text = "Agregar cliente",
+                text = if (customerCode == null) "Agregar cliente" else "Editar cliente",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
             Text(
-                text = "Captura la información del nuevo cliente",
+                text = if (customerCode == null)
+                    "Captura la información del nuevo cliente"
+                else
+                    "Modifica la información del cliente",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
             )

@@ -12,4 +12,6 @@ interface CustomerRepository {
 
     fun getCustomers(): Flow<List<Customer>>
 
+    suspend fun updateCustomer(customer: Customer)
+
 }

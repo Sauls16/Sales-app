@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import edu.itvo.sales2.presentation.customer.create.CreateCustomerScreen
 import edu.itvo.sales2.presentation.customer.list.ListCustomerScreen
 import edu.itvo.sales2.presentation.product.create.CreateProductScreen
@@ -73,11 +74,25 @@ fun AppNavigation() {
             // --- SECCIÓN PRODUCT ---
             composable("product_list") {
                 ListProductScreen(
-                    onAddProduct = {
-                        navController.navigate("create_product")
+                    onAddProduct = { code ->
+                        val route = if (code != null) "create_product?productCode=$code" else "create_product"
+                        navController.navigate(route)
                     }
                 )
             }
+
+            composable(
+                route = "create_product?productCode={productCode}",
+                arguments = listOf(navArgument("productCode") { nullable = true })
+            ) { backStackEntry ->
+                val code = backStackEntry.arguments?.getString("productCode")
+
+                CreateProductScreen(
+                    productCode = code,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
             composable("create_product") {
                 CreateProductScreen(
                     onNavigateBack = { navController.popBackStack() }
@@ -87,12 +102,21 @@ fun AppNavigation() {
             // --- SECCIÓN CUSTOMER ---
             composable("customer_list") {
                 ListCustomerScreen(
-                    onAddCustomer = { navController.navigate("create_customer") },
+                    // Permitimos que la función reciba el código para editar
+                    onAddCustomer = { code ->
+                        val route = if (code != null) "create_customer?code=$code" else "create_customer"
+                        navController.navigate(route)
+                    },
                     onGoToProducts = { navController.navigate("product_list") }
                 )
             }
-            composable("create_customer") {
+            composable(
+                route = "create_customer?code={code}",
+                arguments = listOf(navArgument("code") { nullable = true })
+            ) { backStackEntry ->
+                val code = backStackEntry.arguments?.getString("code")
                 CreateCustomerScreen(
+                    customerCode = code,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

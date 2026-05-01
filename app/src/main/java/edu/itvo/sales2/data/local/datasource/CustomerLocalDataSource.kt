@@ -32,4 +32,7 @@ class CustomerLocalDataSource @Inject constructor(
         dao.replaceAll(customers)
     }
 
+    suspend fun updateCustomer(customer: CustomerEntity){
+        dao.update(customer)
+    }
 }

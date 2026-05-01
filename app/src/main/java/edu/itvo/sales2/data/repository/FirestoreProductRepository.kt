@@ -25,4 +25,8 @@ class FirestoreProductRepository @Inject constructor(
     override suspend fun deleteProduct(productCode: String) {
         firebaseDataSource.deleteProduct(productCode)
     }
+
+    override suspend fun updateProduct(product: Product) {
+        firebaseDataSource.updateProduct(product)
+    }
 }

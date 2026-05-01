@@ -2,6 +2,7 @@ package edu.itvo.sales2.data.local.datasource
 
 import edu.itvo.sales2.data.local.dao.ProductDao
 import edu.itvo.sales2.data.local.entity.ProductEntity
+import edu.itvo.sales2.data.remote.dto.ProductDto
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -32,4 +33,10 @@ class ProductLocalDataSource @Inject constructor(
     suspend fun replaceAll(products: List<ProductEntity>) {
         dao.replaceAll(products)
     }
+
+    suspend fun updateProduct(product: ProductEntity){
+        dao.update(product)
+    }
+
+
 }

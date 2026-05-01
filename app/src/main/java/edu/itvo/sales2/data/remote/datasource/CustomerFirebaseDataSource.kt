@@ -40,4 +40,8 @@ class CustomerFirebaseDataSource @Inject constructor() {
     suspend fun deleteCustomer(code: String) {
         collection.document(code).delete().await()
     }
+
+    suspend fun updateCustomer(customer: Customer){
+
+    }
 }

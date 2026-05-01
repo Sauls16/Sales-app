@@ -13,6 +13,7 @@ import edu.itvo.sales2.domain.model.Customer
 @Composable
 fun ListCustomer(
     customers: List<Customer>,
+    onEditCustomer: (Customer) -> Unit,
     onDeleteCustomer: (Customer) -> Unit
 ) {
 
@@ -31,6 +32,7 @@ fun ListCustomer(
             key = { it.code }
         ) { customer ->
             CustomerItem(customer = customer,
+                onEditCustomer = onEditCustomer,
                 onDeleteCustomer = onDeleteCustomer
             )
         }

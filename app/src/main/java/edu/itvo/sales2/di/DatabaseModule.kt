@@ -48,7 +48,7 @@ object DatabaseModule {
             CustomerDatabase::class.java,
             "customer.db"
         )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(true) //obligatorio en room
             .build()
     }
 

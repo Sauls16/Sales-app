@@ -23,14 +23,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 @Composable
 fun ListProductScreen(
     viewModel: ListProductViewModel = hiltViewModel(),
-    onAddProduct: () -> Unit
+    onAddProduct: (String?) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAddProduct,
+                onClick = {onAddProduct(null)},
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Agregar Producto")
@@ -52,6 +52,8 @@ fun ListProductScreen(
                 else -> {
                     ListProduct(
                         products = uiState.products,
+                        onUpdateProduct = {product ->
+                            onAddProduct(product.code)},
                         onDeleteProduct = { product ->
                             viewModel.deleteProduct(product)
                         }

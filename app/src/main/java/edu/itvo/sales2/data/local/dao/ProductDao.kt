@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import edu.itvo.sales2.data.local.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -35,4 +36,6 @@ interface ProductDao {
         insertAll(products)
     }
 
+    @Update
+    suspend fun update(product: ProductEntity)
 }

@@ -12,6 +12,7 @@ import edu.itvo.sales2.domain.model.Customer
 import edu.itvo.sales2.domain.repository.CustomerRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -62,6 +63,17 @@ class CustomerRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateCustomer(customer: Customer){
+        try {
+            remote.updateCustomer(customer.code, customer.toDto())
+
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+         local.updateCustomer(customer.toEntity())
+    }
+
+
     override suspend fun saveCustomer(customer: Customer) {
         try {
             remote.saveCustomer(customer.toDto())
@@ -83,6 +95,24 @@ class CustomerRepositoryImpl @Inject constructor(
        } catch (e: Exception){
            Log.e("DELETE_ERROR", "No se pudo eliminar del servidor: ${e.message}")
        }
+    }
+
+    suspend fun SyncToServer() {
+        try {
+            // Obtener la lista de clientes
+            val localCustomers = getCustomers().first()
+
+            // Mandar cada cliente de Room al webservice
+            localCustomers.forEach { customer ->
+                try {
+                    remote.updateCustomer(customer.code, customer.toDto())
+                } catch (e: Exception) {
+                    // Si el servidor falla, pasa al siguiente
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 

@@ -33,7 +33,7 @@ import edu.itvo.sales2.domain.model.Customer
 
 @Composable
 fun ListCustomerScreen(
-    onAddCustomer: () -> Unit,
+    onAddCustomer: (String?) -> Unit,
     onGoToProducts: () -> Unit,
     viewModel: ListCustomerViewModel = hiltViewModel()
 ) {
@@ -59,7 +59,7 @@ fun ListCustomerScreen(
                 }
 
                 FloatingActionButton(
-                    onClick = onAddCustomer,
+                    onClick = {onAddCustomer(null)},
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
@@ -90,6 +90,9 @@ fun ListCustomerScreen(
                 else -> {
                     ListCustomer(
                         customers = uiState.customers,
+                        onEditCustomer = {customer ->
+                            onAddCustomer(customer.code)
+                        },
                         onDeleteCustomer = { customer ->
                             viewModel.deleteCustomer(customer)
                         }

@@ -23,5 +23,10 @@ class CustomerRemoteDatasource @Inject constructor(
     suspend fun deleteCustomer(code: String ){
         api.deleteCustomer(code)
     }
+
+    suspend fun updateCustomer(code: String, customer: CustomerDto): CustomerDto {
+        return api.updateCustomer(id=code, customer = customer)
+    }
+
 }
 

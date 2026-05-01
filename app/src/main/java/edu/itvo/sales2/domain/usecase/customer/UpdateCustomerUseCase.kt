@@ -7,5 +7,8 @@ import javax.inject.Inject
 class UpdateCustomerUseCase @Inject constructor(
     private val repository: CustomerRepository){
 
-    suspend fun invoke(customer: Customer) = repository.saveCustomer(customer)
+    suspend operator fun invoke(customer: Customer){
+        repository.updateCustomer(customer)
+    }
+
 }

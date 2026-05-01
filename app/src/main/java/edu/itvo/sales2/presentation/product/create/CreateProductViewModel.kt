@@ -1,12 +1,12 @@
 package edu.itvo.sales2.presentation.product.create
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.itvo.sales2.domain.model.Product
+import edu.itvo.sales2.domain.repository.ProductRepository
 import edu.itvo.sales2.domain.usecase.product.CreateProductUseCase
-import edu.itvo.sales2.domain.usecase.product.ListProductsUseCase
+import edu.itvo.sales2.domain.usecase.product.UpdateProductUseCase
 import edu.itvo.sales2.domain.validation.ProductValidator
 import edu.itvo.sales2.presentation.product.ValidationResult
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateProductViewModel @Inject constructor(
     private val createProductUseCase: CreateProductUseCase,
-    private val listProductsUseCase: ListProductsUseCase
+    private val repository: ProductRepository,
+    private val updateProductUseCase: UpdateProductUseCase
+
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CreateProductUiState())
@@ -29,6 +31,7 @@ class CreateProductViewModel @Inject constructor(
 
     private val _effect = Channel<CreateProductUiEffect>()
     val effect = _effect.receiveAsFlow()
+    private var isEditing = false
 
     private fun updateState(update: CreateProductUiState.() -> CreateProductUiState) {
         _state.update(update)
@@ -88,28 +91,48 @@ class CreateProductViewModel @Inject constructor(
                 val result = ProductValidator().invoke(product)
                 when(result) {
                     is ValidationResult.Success -> {
-                        createProductUseCase(product)
+                        if (isEditing) {
+                            updateProductUseCase(product)
+                            sendEffect(CreateProductUiEffect.ShowSuccess("Producto actualizado con éxito"))
+                        } else {
+                            createProductUseCase(product)
+                            sendEffect(CreateProductUiEffect.ShowSuccess("Producto guardado con éxito"))
+                        }
 
-                        _effect.send(CreateProductUiEffect.ShowSuccess("Producto guardado con éxito"))
-
-                        _effect.send(CreateProductUiEffect.NavigateBack)
+                        delay(800)
+                        sendEffect(CreateProductUiEffect.NavigateBack)
                     }
                     is ValidationResult.Error -> {
-                        sendEffect(
-                            CreateProductUiEffect.ShowError(result.message)
-                        )
+                        sendEffect(CreateProductUiEffect.ShowError(result.message))
                     }
                 }
-                createProductUseCase(product)
-
             } catch (e: Exception) {
+                sendEffect(CreateProductUiEffect.ShowError(e.message ?: "Error desconocido"))
+            } finally {
+                updateState { copy(isLoading = false) }
+            }
+        }
+    }
 
-                sendEffect(
-                    CreateProductUiEffect.ShowError(
-                        e.message ?: "Error desconocido"
-                    )
-                )
 
+    fun loadProductData(code: String) {
+        isEditing = true
+        viewModelScope.launch {
+            updateState { copy(isLoading = true) }
+            try {
+                val product = repository.findProductByCode(code)
+                product?.let { p ->
+                    updateState { copy(
+                        code = p.code,
+                        description = p.description,
+                        category = p.category,
+                        price = p.price.toString(),
+                        stock = p.stock.toString(),
+                        taxable = p.taxable
+                    ) }
+                }
+            } catch (e: Exception) {
+                sendEffect(CreateProductUiEffect.ShowError("Error al cargar producto"))
             } finally {
                 updateState { copy(isLoading = false) }
             }

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import edu.itvo.sales2.data.local.entity.CustomerEntity
 import kotlinx.coroutines.flow.Flow
 @Dao
@@ -32,4 +33,8 @@ interface CustomerDao {
         clearAll()
         insertAll(customers)
     }
+
+    @Update
+    suspend fun update(customer: CustomerEntity)
+
 }

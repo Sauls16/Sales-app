@@ -45,5 +45,7 @@ class ProductFirebaseDataSource @Inject constructor() {
         collection.document(productCode).delete().await()
     }
 
-    
+    suspend fun updateProduct(product: Product){
+        collection.document(product.code).set(product).await()
+    }
 }

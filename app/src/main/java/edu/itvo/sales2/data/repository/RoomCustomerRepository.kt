@@ -30,4 +30,8 @@ class RoomCustomerRepository @Inject constructor(
     override suspend fun deleteCustomer(customerCode: String) {
         dao.deleteByCode(customerCode)
     }
+
+    override suspend fun updateCustomer(customer: Customer) {
+
+    }
 }

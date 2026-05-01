@@ -14,6 +14,6 @@ class CreateCustomerUseCase @Inject constructor(
             "Customer with id: ${customer.code} already exists"
         }
         repository.saveCustomer(customer)
-    }
 
+    }
 }

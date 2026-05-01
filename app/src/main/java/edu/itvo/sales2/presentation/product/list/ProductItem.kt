@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -25,18 +27,21 @@ import edu.itvo.sales2.domain.model.Product
 @Composable
 fun ProductItem(
     product: Product,
+    onEditProduct: (Product) -> Unit,
     onDeleteClick: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(4.dp)
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
-        ) {
+        )
+        {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = product.description, style = MaterialTheme.typography.titleMedium)
                 Text(text = "Code: ${product.code}", style = MaterialTheme.typography.bodySmall)
@@ -44,6 +49,15 @@ fun ProductItem(
                     Text(text = "Price: $${product.price}", style = MaterialTheme.typography.bodyMedium)
                     Text(text = "Stock: ${product.stock}", style = MaterialTheme.typography.bodyMedium)
                 }
+            }
+            IconButton(
+                onClick = {onEditProduct(product)}
+            ){
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Editar",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
             }
 
             IconButton(onClick = onDeleteClick) {

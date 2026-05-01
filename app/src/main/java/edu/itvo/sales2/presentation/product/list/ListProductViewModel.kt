@@ -3,6 +3,7 @@ package edu.itvo.sales2.presentation.product.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import edu.itvo.sales2.data.repository.ProductRepositoryImpl
 import edu.itvo.sales2.domain.model.Product
 import edu.itvo.sales2.domain.usecase.product.DeleteProductUseCase
 import edu.itvo.sales2.domain.usecase.product.ListProductsUseCase
@@ -17,8 +18,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ListProductViewModel @Inject constructor(
     getProductsUseCase: ListProductsUseCase,
-    private val deleteProductUseCase: DeleteProductUseCase
+    private val deleteProductUseCase: DeleteProductUseCase,
+    private val repository: ProductRepositoryImpl
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            repository.syncToServer()
+        }
+    }
 
     val uiState: StateFlow<ListProductUiState> =
         getProductsUseCase()

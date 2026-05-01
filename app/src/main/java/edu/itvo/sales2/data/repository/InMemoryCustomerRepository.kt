@@ -34,4 +34,7 @@ class InMemoryCustomerRepository @Inject constructor():
             }
 
             override fun getCustomers(): Flow<List<Customer>> = observeAll()
+
+            override suspend fun updateCustomer(customer: Customer) {
+            }
         }

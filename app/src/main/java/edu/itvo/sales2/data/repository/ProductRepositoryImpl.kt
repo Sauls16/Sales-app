@@ -6,13 +6,16 @@ import edu.itvo.sales2.data.local.entity.ProductEntity
 import edu.itvo.sales2.data.local.mapper.toDomain
 import edu.itvo.sales2.data.local.mapper.toEntity
 import edu.itvo.sales2.data.remote.datasource.ProductRemoteDataSource
+import edu.itvo.sales2.data.remote.mapper.CustomerRemoteMapper.toDto
 import edu.itvo.sales2.data.remote.mapper.ProductRemoteMapper.toDomain
 import edu.itvo.sales2.data.remote.mapper.ProductRemoteMapper.toDto
 import edu.itvo.sales2.data.remote.mapper.ProductRemoteMapper.toEntity
+import edu.itvo.sales2.domain.model.Customer
 import edu.itvo.sales2.domain.model.Product
 import edu.itvo.sales2.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -72,6 +75,15 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateProduct(product: Product) {
+        try {
+            remote.updateProduct(product.code, product.toDto())
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+        local.updateProduct(product.toEntity())
+    }
+
     override suspend fun saveProduct(product: Product) {
         try {
             remote.saveProduct(product.toDto())
@@ -94,4 +106,21 @@ class ProductRepositoryImpl @Inject constructor(
             Log.e("DELETE_ERROR", "No se pudo eliminar del servidor ${e.message}")
         }
     }
+
+    suspend fun syncToServer(){
+        try {
+            val localProducts = getProducts().first()
+
+            localProducts.forEach { product ->
+               try {
+                   remote.updateProduct(product.code, product.toDto())
+               } catch (e: Exception){
+
+               }
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
+
 }
